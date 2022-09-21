@@ -33,11 +33,11 @@
             "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "C:\\MinGW\\bin",
+            "cwd": "C:\\msys64\\mingw64\\bin",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe",
+            "miDebuggerPath": "C:\\msys64\\mingw64\\bingdb.exe",
             "setupCommands": [
                 {
                     "description": "Activer l'impression en mode Pretty pour gdb",
