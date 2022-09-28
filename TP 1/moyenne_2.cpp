@@ -23,7 +23,7 @@ int main(){
         }
         nb += 1;
     }
-    while(note > 0 and note < 21);
+    while(note >= 0 and note < 21);
     moyenne = moyenne/nb;
     std::cout<< "\n";
     std::cout<< "Moyenne des notes : " << moyenne << "\nMinimum : " << min << "\nMaximum : " << max;
