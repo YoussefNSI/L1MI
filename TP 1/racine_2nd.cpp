@@ -8,13 +8,15 @@ int main(){
     
     std::complex<double> z1 = (0.0, 1.0);
     std::cout<< "Entrez les coefficients a, b, c";
-    std::cin>> a, b, c;
+    std::cin>> a;
+    std::cin>> b;
+    std::cin>> c;
 
     delta = b*b - 4*a*c;
     
 
     if(delta < 0){
-        std::cout<< "Pas de solution dans R, deux racines dans C a trouver force";
+        std::cout<< "Pas de solution dans R, deux racines dans C a trouver (calculatrice)";
         return 0;
     }
     else if(delta == 0){
