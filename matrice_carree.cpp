@@ -16,19 +16,17 @@ int main()
             num += 1;
         }
     }
-    
-    std::cout<<"transposée : ";
     std::vector<std::vector<int>> transposee(taille, std::vector<int>(taille));
     
     for(int i = 0; i < taille; i++){
-        for(int j=taille; j < 0; j--){
+        for(int j=0; j < taille; j++){
             transposee[j][i] = matrice[i][j];
         }
     }
     for(int i = 0; i < taille; i++){
         for(int j = 0; j < taille; j++){
-            std::cout<< "matrice[i][j] = "<<matrice[i][j];
-            std::cout<<"\nTransposee = "<< transposee[i][j];
+            std::cout<< "matrice[i][j] = "<<matrice[i][j]<<"\n";
+            std::cout<<"Transposee = "<< transposee[i][j]<<"\n";
         }
     }
     return 0;
