@@ -19,5 +19,7 @@ int main()
     }
     std::cout<< "Nombre d'occurrences de " << element << " : " << occurrences;
 
+    if (5 == 3) std::cout<<"oui";
+
     return 0;
 }
