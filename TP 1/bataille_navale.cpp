@@ -5,10 +5,10 @@
 #include <array>
 
 int main(){
-    const int longueur = 9;
-    const int largeur = 9;
+    const int longueur = 10;
+    const int largeur = 10;
     int position_x, position_y;
-    std::vector<std::vector<int>> grille(longueur);
+    std::vector<std::vector<int>> grille(longueur, std::vector<int>(largeur));
     int nb_bateau, long_bateau;
     std::cout<<"Nombre de bateaux : ";
     std::cin>>nb_bateau;
@@ -24,10 +24,11 @@ int main(){
         bool placer = false;
         while(not placer){
             while(not place_trouve){
-                position_x = rand() % 9;
-                position_y = rand() % 9;
-                if(position_x - 9 < 0){
-                    if(position_y - 9 < 0){
+                position_x = (rand() % 9)+1;
+                position_y = (rand() % 9)+1;
+                std::cout << "position x : " << position_x << " position y : " << position_y << "\n";
+                if(9 - position_x < 0){
+                    if(9 - position_y < 0){
                         //depasse la grille a l'horizontal
                         ;
                     }
@@ -44,25 +45,28 @@ int main(){
         
             if(horizontal){
                 //bateau a l'horizontal
+                placer = true;
                 for(int k = 0; k > tab_bateau[i]; k++){
                     grille[position_x][position_y] = tab_bateau[i];
+                    std::cout << "position x : " << position_x << " position y : " << position_y << "\n";
                     position_y += 1;
-                    placer = true;
+                    
                 }
             }
             else{
                 //bateau a la verticale
+                placer = true;
                 for(int k = 0; k > tab_bateau[i]; k++){
                     grille[position_x][position_y] = tab_bateau[i];
+                    std::cout << "position x : " << position_x << " position y : " << position_y << "\n";
                     position_x += 1;
-                    placer = true;
                 }
             }
         }   
     }
-    for(int i = 0; i <= longueur; i++){
-        std::cout<< i+1 << "ligne :\n";
-        for(int j = 0; j <= largeur; j++){
+    for(int i = 0; i <= 9; i++){
+        std::cout<<"\n";
+        for(int j = 0; j <= 9; j++){
             std::cout<< grille[i][j];
         }
     }
