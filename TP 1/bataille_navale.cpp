@@ -30,27 +30,31 @@ int main(){
                 position_y = (rand() % 10);
                 std::cout << "position x : " << position_x << " position y : " << position_y << "\n";
                 if(tab_bateau[i] > abs((position_x - 9))){
+                    //depasse la grille a l'horizontal
                     if(tab_bateau[i] > abs((position_y - 9))){
                         //depasse la grille a la verticale
                         std::cout<< "Le bateau depasse, longueur = " << tab_bateau[i] << "\n";
                         ;
                     }
                     else{
+                        //le bateau sera à l'horizontal
                         horizontal = true;
                         place_trouve = true;
                     }    
                 }
                 else{
+                    //le bateau sera à la verticale
                     horizontal = false;
                     place_trouve = true;
                 }
             }
         
             if(horizontal){
-                std::cout<< "bateau a l'horizontal\n";
                 //bateau a l'horizontal
+
                 int position_y_test = position_y;
                 placer = true;
+                //cherche si obstacle
                 for(int k = 0; k < tab_bateau[boucle_i]; k++){
                     if(grille[position_x][position_y_test] != 0){
                         placer = false;
@@ -58,6 +62,7 @@ int main(){
                     }
                     else position_y_test += 1;                   
                 }
+                //aucun obstacle
                 if(placer){
                     for(int k = 0; k < tab_bateau[boucle_i]; k++){
                         grille[position_x][position_y] = tab_bateau[boucle_i];
@@ -67,11 +72,12 @@ int main(){
                 }
             }
             else{
-                std::cout<<"bateau a la verticale\n";
                 //bateau a la verticale
+
                 int position_x_test = position_x;
                 placer = true;
                 for(int k = 0; k < tab_bateau[boucle_i]; k++){
+                    //cherche si il y a un obstacle
                     if(grille[position_x_test][position_y] != 0){
                         placer = false;
                         place_trouve = false;
@@ -79,6 +85,7 @@ int main(){
                     else position_x_test += 1;
                 }
                 if(placer){
+                    //aucun obstacle trouvé
                     for(int k = 0; k < tab_bateau[boucle_i]; k++){
                         grille[position_x][position_y] = tab_bateau[boucle_i];
                         std::cout << "position x : " << position_x << " position y : " << position_y << "\n";
@@ -88,6 +95,7 @@ int main(){
             }
         }   
     }
+    
     std::cout<<"Grille finale : \n \n";
 
     for(int i = 0; i <= 9; i++){
