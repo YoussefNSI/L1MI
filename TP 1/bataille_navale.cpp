@@ -65,7 +65,7 @@ int main(){
                 //aucun obstacle
                 if(placer){
                     for(int k = 0; k < tab_bateau[boucle_i]; k++){
-                        grille[position_x][position_y] = tab_bateau[boucle_i];
+                        grille[position_x][position_y] = boucle_i + 1;
                         std::cout << "position x : " << position_x << " position y : " << position_y << "\n";
                         position_y += 1;           
                     }
@@ -87,7 +87,7 @@ int main(){
                 if(placer){
                     //aucun obstacle trouvé
                     for(int k = 0; k < tab_bateau[boucle_i]; k++){
-                        grille[position_x][position_y] = tab_bateau[boucle_i];
+                        grille[position_x][position_y] = boucle_i +1;
                         std::cout << "position x : " << position_x << " position y : " << position_y << "\n";
                         position_x += 1;
                     }
@@ -96,7 +96,7 @@ int main(){
         }   
     }
     
-    std::cout<<"Grille finale : \n \n";
+    std::cout<<"\nGrille finale : \n";
 
     for(int i = 0; i <= 9; i++){
         std::cout<<"\n";

@@ -6,6 +6,7 @@ int main(){
     std::string mot;
     std::string proposition;
     bool trouver;
+    int essai = 0;
 
     std::cout<< "Entrez le mot à deviner:";
     std::getline(std::cin, mot);
@@ -17,6 +18,7 @@ int main(){
     }
 
     while(not trouver){
+        essai += 1;
         std::cout<< underscore << "\n";
         std::cout<<"Proposez une lettre ou un mot: ";
         std::getline(std::cin, proposition);
@@ -42,6 +44,6 @@ int main(){
     
     }
 
-    std::cout<< "Bravo";
+    std::cout<< "Bravo après " << essai << "essai(s)";
     return 0;
 }
