@@ -54,21 +54,26 @@ bool est_rectangle(float x, float y, float z){
 }
 
 bool est_plat(float x, float y, float z){
-    return 0;
+    return false;
 }
 
 std::string nature_t(float x, float y, float z){
     std::string nature;
-    if(est_equi(x,y,z))
-        nature = "équilatéral";
-    else if(est_isocele(x,y,z))
-        nature = "isocèle";
-    else if(est_rectangle(x,y,z))
-        nature = "triangle rectangle";
-    else if(est_plat(x,y,z))
-        nature = "triangle plat";
-    else
-        nature = "triangle quelconque";
+    if(est_valide(x,y,z)){
+        if(est_equi(x,y,z))
+            nature = "équilatéral";
+        else if(est_isocele(x,y,z))
+            nature = "isocèle";
+        else if(est_rectangle(x,y,z))
+            nature = "triangle rectangle";
+        else if(est_plat(x,y,z))
+            nature = "triangle plat";
+        else
+            nature = "triangle quelconque";
+    }
+    else{
+        nature = "Non valide";
+    }
     return nature;
 }
 
