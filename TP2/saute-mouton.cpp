@@ -2,7 +2,7 @@
 #include <array>
 #include <string>
 
-const int M = 3;
+const int M = 5;
 const int taille = (2*M) + 1;
 using jeu = std::array<std::string, taille>;
 
