@@ -44,11 +44,12 @@ bool peutAvancer(jeu T, int mouton){
 }
 
 bool peutSauter(jeu T, int mouton){
-    if((T[mouton] == "B" and mouton < taille-2) and mouton != 0) return (T[mouton+1] == "N" or T[mouton+1] == "B") and \
-    T[mouton+2] == "X";
-    else if((T[mouton] == "N" and mouton > 1) and mouton != taille-1) return (T[mouton-1] == "B" or T[mouton-1] == "N") and \
-    T[mouton-2] == "X";
-    else return false;
+    if((T[mouton] == "B" and mouton < taille-2) and mouton != 0)
+        return (T[mouton+1] == "N" or T[mouton+1] == "B") and T[mouton+2] == "X";
+    else if((T[mouton] == "N" and mouton > 1) and mouton != taille-1)
+        return (T[mouton-1] == "B" or T[mouton-1] == "N") and T[mouton-2] == "X";
+    else 
+        return false;
 }
 
 bool gagne(jeu T){
