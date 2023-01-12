@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="fr-FR">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Trafic ferroviaire d'Angers à Nantes</title>
+    <script src="./js/trains.js" defer></script>
+</head>
+
+<body>
+    <h1>Trafic d'Angers à Nantes</h1>
+    <table>
+        <tr>
+            <th></th>
+            <th>Numéro</th>
+            <th>Départ</th>
+            <th>Arrivée</th>
+        </tr>
+        <tr>
+            <th rowspan="2">Confirmés</th>
+            <td>TER 4567</td>
+            <td>07:34</td>
+            <td>08:25</td>
+        </tr>
+        <tr>
+            <td>TER 7890</td>
+            <td>09:12</td>
+            <td>10:19</td>
+        </tr>
+        <tr>
+            <th rowspan="3">Annulés</th>
+            <td>TER 3456</td>
+            <td>06:05</td>
+            <td>07:13</td>
+        </tr>
+        <tr>
+            <td>TER 5467</td>
+            <td>08:56</td>
+            <td>09:69</td>
+        </tr>
+        <tr>
+            <td>TER 5467</td>
+            <td>10:20</td>
+            <td>11:32</td>
+        </tr>
+    </table>
+    
+        Votre décision ?
+        <form>
+        <br><br>
+        <select name="decision">
+            <option value="oui">Je confirme mon voyage</option>
+            <option value="non">J'annule mon voyage</option>
+            <option value="rep">Je reporte mon voyage</option>
+        </select>
+        <br>
+        <input name="abo" type="checkbox" value="abo">J'ai un abonnement
+        <br>
+        <input type="submit" formmethod="GET" formtarget="https://leria-etud.univ-angers.fr/~david.lesaint/l1mi-dw/tp-html-5/trains/php/trains.php" value="Envoyer">
+        <input type="reset" value="Effacer">
+        </form>
+    
+</body>
+
+</html>

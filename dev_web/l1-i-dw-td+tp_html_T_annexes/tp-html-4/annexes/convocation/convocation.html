@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Convocation</title>
+    <script src="./js/convocation.js" defer></script>
+</head>
+
+<body>
+    <form method="post" action="https://leria-etud.univ-angers.fr/~david.lesaint/l1mi-dw/tp-html-4/convocation/php/convocation.php">
+
+    <div value="CONVOCATION">Convocation<br>
+        <img src="./img/sif.png"><br>
+        Date <input type="date" name="date"><br>
+        Compétition <select name="competition">
+            <option value="Amical">Amical</option>
+            <option value="Championnat">Championnat</option>
+            <option value="Coupe">Coupe</option>
+        </select><br>
+
+        Adversaire <input name="adversaire" type="text"><br>
+
+        <input value="Domicile" type="radio">Domicile 
+        <input value="Exterieur" type="radio">Extérieur
+        <br><br>
+        <textarea id="info" placeholder="Informations supplémentaires"></textarea>
+    </div>
+    <br>
+    JOUEURS
+    <br>
+    <br>
+    <input value="Al Ambiqué" type="checkbox">Al Ambiqué
+    <input value="Ève Anescense" type="checkbox">Ève Anescense
+    <input value="Hal Aniche" type="checkbox">Hal Aniche
+    <input value="José Patelefaire" type="checkbox">José Patelefaire
+    <input value="Jean Tanlelou" type="checkbox">Jean Tanlelou
+    <input value="Marie Rouanna" type="checkbox">Marie Rouanna
+    <input value="Mélusine Engraiv" type="checkbox">Mélusine Engraiv
+    <input value="Mehdi Zan" type="checkbox">Mehdi Zan
+    <input value="Sam Soule" type="checkbox">Sam Soule
+    <input value="Terry Dicule" type="checkbox">Terry Dicule
+    <br><br>
+    <input type="submit" value="Soumettre">
+    <input type="reset" value="Effacer">
+    </form>
+    
+
+
+    SIF
+</body>
+
+</html>
