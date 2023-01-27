@@ -27,6 +27,11 @@ int pgcd(int a, int b)
     if (b==0) return a ;
     else return pgcd (b, a%b) ; 
 }
+
+int PPCM(long a, long b)
+{
+    return (a*b)/pgcd(a,b);
+}
  
 fraction add(fraction f1, fraction f2){
     fraction f3;
@@ -67,6 +72,6 @@ int main(){
     fraction f1, f2;
     saisie(f1);
     saisie(f2);
-    fraction f3 = soustr(f1, f2);
-    affichage(opp(f1));
+    fraction f3 = add(f1, f2);
+    affichage(f3);
 }
