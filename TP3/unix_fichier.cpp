@@ -11,16 +11,13 @@ void detail_txt(std::string fichier){
     int nb_c = 0;
     std::string ch;
     char c;
-    while(not fic.eof()){
-        fic.get(c);
+    while(std::getline(fic, ch))
+    {
+        nb_ligne += 1;
+
         if(not std::isspace(c))
             nb_c += 1;
-    }
-    fic.clear();
-    fic.seekg(0);
-    while(not fic.eof()){
-        std::getline(fic, ch);
-        nb_ligne += 1;
+        
     }
     std::cout << "Il y à " << nb_c << " caractères et " << nb_ligne << " lignes.";
 }

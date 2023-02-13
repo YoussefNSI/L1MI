@@ -10,8 +10,6 @@ bool fichier_identique_gt(std::string fichier1, std::string fichier2){
     std::string ch1, ch2;
     bool identique = true;
     while((not fic1.eof() or not fic2.eof()) and identique){
-        fic1 >> ch1;
-        fic2 >> ch2;
         std::getline(fic1, ch1);
         std::getline(fic2, ch2);
         if(ch1 != ch2) identique = false;
@@ -25,8 +23,6 @@ bool fichier_identique_get(std::string fichier1, std::string fichier2){
     char ch1, ch2;
     bool identique = true;
     while((not fic1.eof() or not fic2.eof()) and identique){
-        fic1 >> ch1;
-        fic2 >> ch2;
         fic1.get(ch1);
         fic2.get(ch2);
         if(ch1 != ch2) identique = false;
