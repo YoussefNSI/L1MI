@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="fr">
+<head>
+<meta charset="utf-8" />
+<title>TD HTML Formulaires : attributs de champs HTML5</title>
+</head>
+<body>
+<form name="formulaire" method="get" action="traiter.php">
+  <label for="prenom">Prénom :</label>
+  <input type="text" id="prenom" name="fname" value="Jean" /><br/>
+
+  <label for="nom">Nom :</label>
+  <input type="text" id="nom" name="lname" value="Incorruptible" readonly /><br/>
+
+  <label for="statut">Etudiant :</label>
+  <input type="text" id="statut" name="status" value="étudiant" disabled /><br/>
+
+  <label for="code">Code :</label>
+  <input type="text" id="code" name="pin" size="4" /><br/>
+
+  <label for="autrecode">Autre code :</label>
+  <input type="text" id="autrecode" name="opin" maxlength="2" size="4" /><br/>
+
+  <label for="fichiers">Fichier(s) :</label>
+  <input type="file" id="fichiers" name="files" multiple /><br/>
+
+  <label for="code-pays">Code pays :</label>
+ <input type="text" id="code-pays" name="country_code" pattern="[A-Za-z]{3}" title="code à 3 lettres" /><br/>
+
+  <label for="telephone">Téléphone :</label>
+  <input type="tel" id="telephone" name="phone" placeholder="01-23-45-67-89" pattern="0[1-9](-[0-9]){4}" /><br/>
+
+  <label for="focus">Attracteur :</label>
+  <input type="text" id="focus" name="fname" autofocus /><br/>
+
+  <label for="obligatoire">Commandeur :</label>
+  <input type="text" id="obligatoire" name="mandatory" required /><br/>
+
+   <label for="soumettre">Soumettre :</label>
+ <input type="submit" id="soumettre" name="submit" value="submit"/><br/>
+
+</form>
+</body>
+</html>

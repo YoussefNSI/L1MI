@@ -7,7 +7,13 @@ char sous_chaine(str chaine, int i, int longueur){
     if(longueur == 1){
         return chaine[i];
     }
-    return chaine[i] + sous_chaine(chaine, i+1, longueur-1);
+    else{
+        return chaine[i] + sous_chaine(chaine, i+1, longueur-1);
+    }
+}
+
+bool est_palindrome(str chaine, int i=0, int j=chaine.length()){
+    ;
 }
 
 int main(){
