@@ -23,7 +23,8 @@ def generate_magic_square(n):
         i -= 1
     return magic_square
 
-# Example usage
+
+
 magic_square = generate_magic_square(5)
 for row in magic_square:
     print(row)
