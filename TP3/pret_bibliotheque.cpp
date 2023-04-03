@@ -29,11 +29,13 @@ struct biblio{
     enslivre ensL;
 };
 
-void saisie(lecteur l){
-    std::cout<< "Entrez le numéro de lecteur";
+void saisie(lecteur& l){
+    std::cout<< "Entrez le numéro de lecteur : ";
     std::cin>> l.id;
-    std::cout<< "Entrez le nom et prénom du lecteur";
-    std::cin>> l.nom, l.prenom;
+    std::cout<< "Entrez le nom et prénom du lecteur : ";
+    std::getline(std::cin, l.nom);
+    std::getline(std::cin, l.nom);
+    std::cin >> l.prenom;
 }
 
 void affiche(lecteur l){
@@ -41,20 +43,22 @@ void affiche(lecteur l){
      " " << l.prenom;
 }
 
-void init_tab(enslecteurs ens){
+void init_tab(enslecteurs& ens){ 
     lecteur l;
-    for(int i = 0; i <= N_max; i++)
+    ens.nb_l = 0; 
+    for(int i = 0; i < N_max; i++){ 
         ens.tab_lecteurs[i] = l;
+    }
 }
 
-void ajoute(enslecteurs ens, lecteur l){
+void ajoute(enslecteurs& ens, lecteur l){ 
     if(ens.nb_l != N_max){
         ens.tab_lecteurs[ens.nb_l] = l;
         ens.nb_l += 1;
     }
 }
 
-void saisietous(enslecteurs ens){
+void saisietous(enslecteurs& ens){ 
     int max;
     std::cout<< "Combien de lecteurs voulez vous ajouter ? (max : " << N_max <<")";
     std::cin>> max;
@@ -65,18 +69,20 @@ void saisietous(enslecteurs ens){
     }
 }
 
-void affichetous(enslecteurs ens){
-    for(int i = 0; i < ens.nb_l; i++){
-        std::cout<< i+1 << " : nb_lecteur = " << ens.tab_lecteurs[i].id << ", nom prénom : " \
-        << ens.tab_lecteurs[i].nom << " " << ens.tab_lecteurs[i].prenom << "\n";
+void affichetous(const enslecteurs& ens) { 
+    for(int i = 0; i < ens.nb_l; i++) {
+        std::cout << i+1 << " : nb_lecteur = " << ens.tab_lecteurs[i].id << ", nom prénom : "
+            << ens.tab_lecteurs[i].nom << " " << ens.tab_lecteurs[i].prenom << std::endl; // Ajouter un retour à la ligne
     }
 }
 
 std::string rechercheNom(enslecteurs ens, int nb){
     std::string nom_lecteur = "None";
-    for(int i = 0; i <= ens.nb_l; i++){
-        if(nb == ens.tab_lecteurs[i].id)
+    for(int i = 0; i < ens.nb_l; i++){
+        if(nb == ens.tab_lecteurs[i].id){
             nom_lecteur = ens.tab_lecteurs[i].nom;
+            break; 
+        }
     }
     return nom_lecteur;
 }
@@ -86,6 +92,6 @@ int main(){
     init_tab(ens);
     saisietous(ens);
     affichetous(ens);
-    rechercheNom(ens, 10);
+    std::cout<< rechercheNom(ens, 10);
 }
 
