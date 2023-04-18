@@ -6,17 +6,43 @@ class Demineur:
         self.ligne = ligne
         self.colonne = colonne
         self.bombe = bombe
+        self.joueur1 = 0
+        self.joueur2 = 0
         self.grille = [[0]*ligne for _ in range(colonne)]
         self._creation_grille()
+        self.grille_non_visible = [["?"]*ligne for _ in range(colonne)]
 
-    def affichage(self):
-        for i in range(self.ligne):
-            chaine = ""
-            for j in range(self.colonne):
-                chaine = chaine + " " + str(self.grille[i][j])
-            print(chaine, "\n")
+    def _affichage(self, grille="visible"):
+        """
+        Affiche la grille visible avec toutes les bombes
+        param:  par defaut affiche la grille visible.
+                Sinon affiche la grille de jeu avec 
+                les cases non révélés.
+        """
+        if grille == "visible" : 
+            for i in range(self.ligne):
+                chaine = ""
+                for j in range(self.colonne):
+                    if self.grille[i][j] == -1:
+                        chaine += " *"
+                    else:
+                        chaine += " " + str(self.grille[i][j])
+                print(chaine)
+        else:
+            for i in range(self.ligne):
+                chaine = ""
+                for j in range(self.colonne):
+                    if self.grille_non_visible[i][j] == -1:
+                        chaine += " *"
+                    else:
+                        chaine += " " + str(self.grille_non_visible[i][j])
+                print(chaine)
+
 
     def _place_bombe(self):
+        """
+        Place les bombes aléatoirement dans la grille
+        """
         bombe_place = 0
 
         while bombe_place != self.bombe:
@@ -25,41 +51,56 @@ class Demineur:
             if self.grille[ligne_random][colonne_random] != -1:
                 self.grille[ligne_random][colonne_random] = -1
                 bombe_place += 1
+    
+    def _voisins_bombes(self):
+        """
+        Cherche le nombre de bombes autour des cases
+        """
+        voisins = [(-1, -1), (-1, 0), (-1, 1), (0, -1),\
+                    (0, 1), (1, -1), (1, 0), (1, 1)] # indice des voisins
+        for i in range(self.ligne):
+            for j in range(self.colonne):
+                if self.grille[i][j] == 0:
+                    nb_bombes = 0
+                    for x, y in voisins:
+                        if i+x >= 0 and i+x < self.ligne and j+y >= 0 \
+                                and j+y < self.colonne and self.grille[i+x][j+y] == -1: #conditions pour qu'on ne verifie pas
+                                                                                        # au delà de la grille + est une bombe
+                            nb_bombes += 1
 
-    def _grille_somme(self):
-        grille_somme = self.grille
-        grille_somme.insert(0, [0 for _ in range(self.ligne)])
-        grille_somme.append([0 for _ in range(self.ligne)])
-        for ligne in grille_somme:
-            ligne.insert(0, 0)
-            ligne.insert(-1, 0)
-        return grille_somme
-
-        
-
-
-
-    def _voisins(self):
-        grille_somme = self._grille_somme()
-        indice_voisins = [(-1, 0), (1, 0), (0, 1), (0, -1),  # haut + bas + droite + gauche
-                 (-1, -1), (1, -1), (1, 1), (-1, 1), ] # diagonales
-        for x in range(1, len(grille_somme)):
-            for y in range(1, len(grille_somme[x])):
-                somme = 0
-                for x_inc, y_inc in indice_voisins:
-                    if grille_somme[x + x_inc][y + y_inc] != -1:
-                        print("indice : x = ", x + x_inc, ", y = ", y + y_inc, "\n")
-                        somme += grille_somme[x + x_inc][y + y_inc]
-        self.grille = grille_somme
-
-
-
+                    self.grille[i][j] = nb_bombes
 
     def _creation_grille(self):
         self._place_bombe()
-        self._voisins()
+        self._voisins_bombes()
+    
+    def cases_revele(self, x, y):
+        """
+        Révèle  récursivement les cases autour de l'endroit cliqué
+          si il n'y a aucune bombe autour (les 0)
+        """
+        if self.grille[x][y] == 0:
+            self.grille_non_visible[x][y] = self.grille[x][y]
+            # Parcours les voisins pour révéler les cases vides
+            for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)): #opérations pour les positions des voisins
+                new_x, new_y = x + dx, y + dy
+                if 0 <= new_x < self.ligne and 0 <= new_y < self.colonne and \
+                        self.grille_non_visible[new_x][new_y] == "?":
+                    self.cases_revele(new_x, new_y)
+        else:
+            self.grille_non_visible[x][y] = self.grille[x][y]
+
+    
+    
+
+
 
 grille_test = Demineur()
+grille_test.cases_revele(3,7)
 print("grille normal : \n")
-grille_test.affichage()
+grille_test._affichage("non visible")
+print("grille visible")
+grille_test._affichage()
+
+
 

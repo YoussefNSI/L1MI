@@ -5,7 +5,7 @@ class Grille:
         Initialisation de la taille du tableau et de son contenu
         """
         self.taille = 16
-        self.tableau_jeu = [[0 for i in range(self.taille)]for j in range(self.taille)]
+        self.tableau_jeu = [[0 for _ in range(self.taille)]for _ in range(self.taille)]
 
     def affichage(self):
         """
