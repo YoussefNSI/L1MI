@@ -74,11 +74,19 @@ class Demineur:
         self._place_bombe()
         self._voisins_bombes()
     
-    def cases_revele(self, x, y):
+    def _cases_revele(self, x, y, liste_indice_modifie=None):
         """
         Révèle  récursivement les cases autour de l'endroit cliqué
           si il n'y a aucune bombe autour (les 0)
         """
+        if liste_indice_modifie == None:
+            liste_indice_modifie = []
+
+        if self.grille[x][y] != -1:
+            liste_indice_modifie.append((x, y))
+        else:
+            liste_indice_modifie.append("bombe")
+
         if self.grille[x][y] == 0:
             self.grille_non_visible[x][y] = self.grille[x][y]
             # Parcours les voisins pour révéler les cases vides
@@ -86,21 +94,23 @@ class Demineur:
                 new_x, new_y = x + dx, y + dy
                 if 0 <= new_x < self.ligne and 0 <= new_y < self.colonne and \
                         self.grille_non_visible[new_x][new_y] == "?":
-                    self.cases_revele(new_x, new_y)
+                    self._cases_revele(new_x, new_y, liste_indice_modifie)
         else:
             self.grille_non_visible[x][y] = self.grille[x][y]
+            
+        return liste_indice_modifie
 
     
     
 
 
-
-grille_test = Demineur()
-grille_test.cases_revele(3,7)
-print("grille normal : \n")
-grille_test._affichage("non visible")
-print("grille visible")
-grille_test._affichage()
+if __name__ == '__main__':
+    grille_test = Demineur()
+    print(grille_test._cases_revele(3,7))
+    print("grille normal : \n")
+    grille_test._affichage("non visible")
+    print("grille visible")
+    grille_test._affichage()
 
 
 
