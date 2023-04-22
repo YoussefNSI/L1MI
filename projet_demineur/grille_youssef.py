@@ -5,6 +5,7 @@ class Demineur:
     def __init__(self, ligne=16, colonne=16, bombe=50):
         self.ligne = ligne
         self.colonne = colonne
+        self.taille = colonne
         self.bombe = bombe
         self.joueur1 = 0
         self.joueur2 = 0
@@ -46,8 +47,8 @@ class Demineur:
         bombe_place = 0
 
         while bombe_place != self.bombe:
-            ligne_random = randint(0,15)
-            colonne_random = randint(0,15)
+            ligne_random = randint(0,self.ligne-1)
+            colonne_random = randint(0,self.colonne-1)
             if self.grille[ligne_random][colonne_random] != -1:
                 self.grille[ligne_random][colonne_random] = -1
                 bombe_place += 1
@@ -70,6 +71,8 @@ class Demineur:
 
                     self.grille[i][j] = nb_bombes
 
+    
+
     def _creation_grille(self):
         self._place_bombe()
         self._voisins_bombes()
@@ -90,7 +93,7 @@ class Demineur:
         if self.grille[x][y] == 0:
             self.grille_non_visible[x][y] = self.grille[x][y]
             # Parcours les voisins pour révéler les cases vides
-            for dx, dy in ((-1, 0), (1, 0), (0, -1), (0, 1)): #opérations pour les positions des voisins
+            for dx, dy in ((-1,-1),(-1, 0),(-1, 1),(0,-1),(0,1),(1,-1),(1,0),(1,1)): #opérations pour les positions des voisins
                 new_x, new_y = x + dx, y + dy
                 if 0 <= new_x < self.ligne and 0 <= new_y < self.colonne and \
                         self.grille_non_visible[new_x][new_y] == "?":
@@ -99,8 +102,6 @@ class Demineur:
             self.grille_non_visible[x][y] = self.grille[x][y]
             
         return liste_indice_modifie
-
-    
     
 
 

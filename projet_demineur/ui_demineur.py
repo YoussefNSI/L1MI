@@ -10,13 +10,13 @@ class UI_Demineur(QWidget):
         super().__init__()
         self.lignes = lignes
         self.colonnes = colonnes
-        self.demineur = Demineur()
+        self.demineur = Demineur(self.lignes, self.colonnes)
         self.grille_non_visible = self.demineur.grille_non_visible
         self.grille_visible = self.demineur.grille
         self.liste_bouton = []
         self.joueur1 = 0 #score
         self.joueur2 = 0
-        self.tour = 1 # le joueur 1 par féfaut commence
+        self.tour = 1 # le joueur 1 par défaut commence
         self.J_Gagnant = None
         self.initUI()
 
@@ -94,7 +94,7 @@ class UI_Demineur(QWidget):
             UI_Demineur._fin_de_partie(self)
         
     def _est_fini(self):
-        return self.joueur1 + self.joueur2 == self.demineur.bombe
+        return self.joueur1 + self.joueur2 == self.demineur.bombe #si toutes les mines ont été trouvé 
     
     def _resultat(self):
         if self.joueur1 > self.joueur2:
@@ -108,7 +108,10 @@ class UI_Demineur(QWidget):
         UI_Demineur._resultat(self)
         msgFin = QMessageBox()
         msgFin.setIcon(QMessageBox.Information)
-        msgFin.setText(f"Le gagnant est le joueur {self.J_Gagnant}. Bravo !")
+        if self.J_Gagnant != 0:
+            msgFin.setText(f"Le gagnant est le joueur {self.J_Gagnant} avec {max(self.joueur1,self.joueur2)} points. Bravo !")
+        else:
+            msgFin.setText("Egalité ! Aucun gagnant.")
         msgFin.setWindowTitle("Terminé !")
         msgFin.setStandardButtons(QMessageBox.Ok)
         msgFin.exec_()
