@@ -1,9 +1,21 @@
 import sys
+import subprocess
+import pkg_resources
+
+#installe PyQt5 si il n'est pas présent
+required = {'PyQt5'}
+installed = {pkg.key for pkg in pkg_resources.working_set}
+missing = required - installed
+
+if missing:
+    python = sys.executable
+    subprocess.check_call([python, '-m', 'pip', 'install', *missing], stdout=subprocess.DEVNULL)
+
 from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, \
-    QPushButton, QLabel, QMessageBox, QVBoxLayout
+    QPushButton, QLabel, QMessageBox, QVBoxLayout, QLayout
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QFont
-from grille_youssef import Demineur
+from classe_grille import Demineur
 
 class UI_Demineur(QWidget):
     def __init__(self, lignes=16, colonnes=16):
@@ -26,7 +38,7 @@ class UI_Demineur(QWidget):
         self.setLayout(vbox)
         self.score_j1_label = QLabel(f"Score Joueur 1 : {self.joueur1}")
         self.score_j2_label = QLabel(f"Score Joueur 2 : {self.joueur2}")
-        self.tour_label = QLabel(f"Tour du joueur {self.tour}")
+        self.tour_label = QLabel(f"Tour du joueur 1 (Rouge)")
         vbox.addWidget(self.score_j1_label)
         vbox.addWidget(self.score_j2_label)
         vbox.addWidget(self.tour_label)
@@ -34,6 +46,8 @@ class UI_Demineur(QWidget):
 
         tabgrille = self.grille_non_visible
         grille = QGridLayout()
+        grille.setSpacing(4)
+        grille.setSizeConstraint(QLayout.SetFixedSize)
         vbox.addLayout(grille)
         for lignes in range(self.lignes):
             for colonnes in range(self.colonnes):
@@ -68,10 +82,10 @@ class UI_Demineur(QWidget):
         if indice_a_modif[0] != "bombe":
 
             if self.tour == 1 and button.text() == " ":
-                self.tour_label.setText("Tour du Joueur 2")
+                self.tour_label.setText("Tour du Joueur 2 (Bleu)")
                 self.tour = 2
             elif self.tour == 2 and button.text() == " ":
-                self.tour_label.setText("Tour du Joueur 1")
+                self.tour_label.setText("Tour du Joueur 1 (Rouge)")
                 self.tour = 1
                 
             for tuple_indice in indice_a_modif:
@@ -83,11 +97,12 @@ class UI_Demineur(QWidget):
             if self.tour == 1 and button.text() != "*":
                 self.joueur1 += 1
                 self.score_j1_label.setText(f"Score Joueur 1 : {self.joueur1}")
+                button.setStyleSheet('QPushButton {color: red;}')
             elif self.tour == 2 and button.text() != "*":
                 self.joueur2 += 1
                 self.score_j2_label.setText(f"Score Joueur 2 : {self.joueur2}")
+                button.setStyleSheet('QPushButton {color: blue;}')
 
-            button.setStyleSheet('QPushButton {color: red;}')
             button.setText("*")
 
         if UI_Demineur._est_fini(self):
