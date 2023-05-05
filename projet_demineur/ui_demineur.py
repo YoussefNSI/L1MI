@@ -60,7 +60,7 @@ class UI_Demineur(QWidget):
                 if valeur == "?":
                     valeur = " "
                 button.setText(valeur)
-                self.liste_bouton.append(((lignes,colonnes),button))
+                self.liste_bouton.append(((lignes,colonnes),button)) #liste pour retrouver les boutons par ses coord.
                 grille.addWidget(button, lignes, colonnes)
         
         for button in self.liste_bouton:
@@ -72,9 +72,9 @@ class UI_Demineur(QWidget):
         """
         Action quand on clique sur un bouton
         """
-        button = self.sender()
+        button = self.sender() 
         indice_a_modif = []
-        pos:tuple
+        pos:tuple #tuple des coordonnées (x,y)
         for elem in self.liste_bouton:
             if button == elem[1]:
                 pos = elem[0]
@@ -130,6 +130,7 @@ class UI_Demineur(QWidget):
         msgFin.setWindowTitle("Terminé !")
         msgFin.setStandardButtons(QMessageBox.Ok)
         msgFin.exec_()
+
 
 
     
