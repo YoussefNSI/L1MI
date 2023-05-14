@@ -31,6 +31,8 @@ class UI_Demineur(QWidget):
         self.tour = 1 # le joueur 1 par défaut commence
         self.J_Gagnant = None
         self.initUI()
+        self.test_clic_ia((0,7))
+        
 
     def initUI(self):
         self.setWindowTitle('Démineur')
@@ -54,6 +56,7 @@ class UI_Demineur(QWidget):
                 button = QPushButton()
                 button.setFont(QFont('Times', 15))
                 button.setFixedSize(QSize(30, 30))
+                
                 valeur = str(tabgrille[lignes][colonnes])
                 if valeur == "-1":
                     valeur = "*"
@@ -68,11 +71,12 @@ class UI_Demineur(QWidget):
 
         self.show()
     
-    def on_button_clicked(self):
+    def on_button_clicked(self, button=False):
         """
         Action quand on clique sur un bouton
         """
-        button = self.sender() 
+        if not button:
+            button = self.sender()
         indice_a_modif = []
         pos:tuple #tuple des coordonnées (x,y)
         for elem in self.liste_bouton:
@@ -130,6 +134,14 @@ class UI_Demineur(QWidget):
         msgFin.setWindowTitle("Terminé !")
         msgFin.setStandardButtons(QMessageBox.Ok)
         msgFin.exec_()
+
+    def test_clic_ia(self, coord):
+        for i in range(len(self.liste_bouton)):
+            if self.liste_bouton[i][0] == coord:
+                bouton = self.liste_bouton[i][1]
+        self.on_button_clicked(bouton)
+        
+
 
 
 

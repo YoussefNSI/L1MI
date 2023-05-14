@@ -102,16 +102,19 @@ class Demineur:
             self.grille_non_visible[x][y] = self.grille[x][y]
             
         return liste_indice_modifie
-    
+
+
+
 
 
 if __name__ == '__main__':
+    
     grille_test = Demineur()
     print(grille_test._cases_revele(3,7))
     print("grille normal : \n")
     grille_test._affichage("non visible")
     print("grille visible")
     grille_test._affichage()
-
+    
 
 
