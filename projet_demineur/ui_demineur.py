@@ -31,7 +31,7 @@ class UI_Demineur(QWidget):
         self.tour = 1 # le joueur 1 par défaut commence
         self.J_Gagnant = None
         self.initUI()
-        self.test_clic_ia((0,7))
+        
         
 
     def initUI(self):
@@ -88,6 +88,7 @@ class UI_Demineur(QWidget):
             if self.tour == 1 and button.text() == " ":
                 self.tour_label.setText("Tour du Joueur 2 (Bleu)")
                 self.tour = 2
+                self._tour_de_ia()
             elif self.tour == 2 and button.text() == " ":
                 self.tour_label.setText("Tour du Joueur 1 (Rouge)")
                 self.tour = 1
@@ -106,11 +107,13 @@ class UI_Demineur(QWidget):
                 self.joueur2 += 1
                 self.score_j2_label.setText(f"Score Joueur 2 : {self.joueur2}")
                 button.setStyleSheet('QPushButton {color: blue;}')
+                self._tour_de_ia()
 
             button.setText("*")
 
         if UI_Demineur._est_fini(self):
             UI_Demineur._fin_de_partie(self)
+            
         
     def _est_fini(self):
         return self.joueur1 + self.joueur2 == self.demineur.bombe #si toutes les mines ont été trouvé 
@@ -134,8 +137,12 @@ class UI_Demineur(QWidget):
         msgFin.setWindowTitle("Terminé !")
         msgFin.setStandardButtons(QMessageBox.Ok)
         msgFin.exec_()
+    
+    def _tour_de_ia(self):
+        indice_ia = self.demineur._prochaine_case_a_reveler()
+        self._test_clic_ia(indice_ia)
 
-    def test_clic_ia(self, coord):
+    def _test_clic_ia(self, coord):
         for i in range(len(self.liste_bouton)):
             if self.liste_bouton[i][0] == coord:
                 bouton = self.liste_bouton[i][1]
