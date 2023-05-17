@@ -103,6 +103,7 @@ class Demineur:
             
         return liste_indice_modifie
     
+    
     def _cases_a_verifier(self):
         liste_indice = []
         for i in range(self.ligne):
@@ -126,52 +127,48 @@ class Demineur:
         for x, y in indices:
             indices_voisin = self._get_cases_voisins(x, y)
             nb_bombes = 0
+            cases_nn_revele = []
             for dx, dy in indices_voisin:
                 if self.grille_non_visible[dx][dy] == -1:
                     nb_bombes += 1
+                elif self.grille_non_visible[dx][dy] == "?":
+                    cases_nn_revele.append((dx,dy))
             if self.grille_non_visible[x][y] > nb_bombes:
-                liste_contraintes.append(((x, y), self.grille_non_visible[x][y] - nb_bombes))
+                mines_restantes = nb_bombes - self.grille_non_visible[x][y]
+                contrainte:set = (cases_nn_revele, mines_restantes)
+                liste_contraintes.append(contrainte)
         return liste_contraintes
     
-    def _intersection(self):
-        pass
+    def _intersection(self, contraintes):
+        new_liste_c = []
+        for i in range(len(contraintes)):
+            for j in range(i + 1, len(contraintes)):
+                cases_communs = set(contraintes[i][0]).intersection(set(contraintes[j][0]))
+                if cases_communs:
+                    mine_restante = abs(contraintes[i][1] - contraintes[j][1])
+                    n_contrainte = (cases_communs, mine_restante)
+                    new_liste_c.append(n_contrainte)
+        return new_liste_c
 
 
-    def _probabilite(self, x, y):
-        indice_voisin = self._get_cases_voisins(x, y)
-        bombe_decouverte = 0
-        for dx, dy in indice_voisin:
-            if self.grille_non_visible[dx][dy] == -1:
-                bombe_decouverte += 1
-            else:
-                pass
-
-
-
-
-
-
-    def _prochaine_case_a_reveler(self):
-        # Créer une matrice de probabilités pour chaque case
-        prob_matrix = np.zeros((self.ligne, self.colonne))
-
-        # Initial la matrice de probabilités avec des valeurs égales
-        prob_matrix.fill(0.1)
-
-        # Mettre à jour la matrice de probabilités en fonction des informations disponibles
-        for i in range(self.ligne):
-            for j in range(self.colonne):
-                pass
-                
-
-
-        # Trouver la case la plus susceptible de contenir une mine
-        max_prob = np.max(prob_matrix)
-        max_prob_indices = np.where(prob_matrix == max_prob)
-        max_prob_case = (max_prob_indices[0][0], max_prob_indices[1][0])
-
-        return max_prob_case
-
+    def _probabilite(self, contraintes):
+        probabilite = {}
+        for cases, mines in contraintes:
+            for case in cases:
+                prob = mines / len(cases)
+                if case not in probabilite or prob > probabilite[case]:
+                    probabilite[case] = prob
+        return probabilite
+    
+    def _case_plus_probable(self):
+        contraintes = self._contraintes()
+        contraintes += self._intersection(contraintes)
+        probabilites = self._probabilite(contraintes)
+        if probabilites:
+            plus_probable = max(probabilites, key=probabilites.get)
+        else:
+            plus_probable = (randint(0, self.ligne-1), randint(0, self.colonne-1))
+        return plus_probable
 
 
 
@@ -188,7 +185,7 @@ if __name__ == '__main__':
     print("indice a verifier\n")
     print(grille_test._cases_a_verifier())
     print("?? : \n")
-    print(grille_test._contraintes())
+    print(grille_test._case_plus_probable())
     
 
 

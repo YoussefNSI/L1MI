@@ -139,20 +139,16 @@ class UI_Demineur(QWidget):
         msgFin.exec_()
     
     def _tour_de_ia(self):
-        indice_ia = self.demineur._prochaine_case_a_reveler()
+        indice_ia = self.demineur._case_plus_probable()
         self._test_clic_ia(indice_ia)
 
     def _test_clic_ia(self, coord):
+        print(coord)
         for i in range(len(self.liste_bouton)):
             if self.liste_bouton[i][0] == coord:
                 bouton = self.liste_bouton[i][1]
         self.on_button_clicked(bouton)
-        
-
-
-
-
-    
+            
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
