@@ -1,5 +1,6 @@
 from random import randint
-import numpy as np
+from pprint import pprint
+
 class Demineur:
 
     def __init__(self, ligne=16, colonne=16, bombe=50):
@@ -124,6 +125,7 @@ class Demineur:
         indices = self._cases_a_verifier()
         liste_contraintes = []
         nb_bombes:int
+        
         for x, y in indices:
             indices_voisin = self._get_cases_voisins(x, y)
             nb_bombes = 0
@@ -135,8 +137,26 @@ class Demineur:
                     cases_nn_revele.append((dx,dy))
             if self.grille_non_visible[x][y] > nb_bombes:
                 mines_restantes = nb_bombes - self.grille_non_visible[x][y]
-                contrainte:set = (cases_nn_revele, mines_restantes)
+                contrainte:set = (set(cases_nn_revele), mines_restantes)
                 liste_contraintes.append(contrainte)
+            
+        i = 0
+        while i < len(liste_contraintes):
+            j = i + 1
+            while j < len(liste_contraintes):
+                cases_i, mines_i = liste_contraintes[i]
+                cases_j, mines_j = liste_contraintes[j]
+                if cases_j.issubset(cases_i):
+                    cases_diff = cases_i - cases_j
+                    if len(cases_diff) > 0:
+                        liste_contraintes[i] = (cases_diff, mines_i - mines_j)
+                elif cases_i.issubset(cases_j):
+                    cases_diff = cases_j - cases_i
+                    if len(cases_diff) > 0:
+                        liste_contraintes[j] = (cases_diff, mines_j - mines_i)
+                j += 1
+            i += 1
+
         return liste_contraintes
     
     def _intersection(self, contraintes):
@@ -157,13 +177,15 @@ class Demineur:
             for case in cases:
                 prob = mines / len(cases)
                 if case not in probabilite or prob > probabilite[case]:
-                    probabilite[case] = prob
+                    probabilite[case] = abs(prob)
         return probabilite
     
     def _case_plus_probable(self):
         contraintes = self._contraintes()
         contraintes += self._intersection(contraintes)
         probabilites = self._probabilite(contraintes)
+        #print("Probabilité :\n")
+        #pprint(probabilites)
         if probabilites:
             plus_probable = max(probabilites, key=probabilites.get)
         else:
@@ -186,6 +208,7 @@ if __name__ == '__main__':
     print(grille_test._cases_a_verifier())
     print("?? : \n")
     print(grille_test._case_plus_probable())
+
     
 
 

@@ -113,8 +113,9 @@ class UI_Demineur(QWidget):
 
         if UI_Demineur._est_fini(self):
             UI_Demineur._fin_de_partie(self)
-            
-        
+            QApplication.quit()
+            return
+                 
     def _est_fini(self):
         return self.joueur1 + self.joueur2 == self.demineur.bombe #si toutes les mines ont été trouvé 
     
@@ -141,6 +142,7 @@ class UI_Demineur(QWidget):
     def _tour_de_ia(self):
         indice_ia = self.demineur._case_plus_probable()
         self._test_clic_ia(indice_ia)
+    
 
     def _test_clic_ia(self, coord):
         print(coord)
