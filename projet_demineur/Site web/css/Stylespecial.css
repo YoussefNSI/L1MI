@@ -1,0 +1,17 @@
+.Exemples:not(:hover)>#exemple1{
+    display:block;
+    margin-left:0%;
+}
+.Exemples:not(:hover)>#exemple2{
+    display:none;
+    margin-left:100%;
+}
+.Exemples:hover>#exemple1{
+    display:none;
+    margin-left:100%;
+}
+.Exemples:hover>#exemple2{
+    display:absolute;
+    margin-left:0%;
+
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<HTML lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>
+            Démineur
+        </title>
+        <link href="css/Style.css" rel="stylesheet">
+        <link href="css/Stylespecial.css" rel="stylesheet">
+        <script src="js/index.js"></script>
+    </head>
+    <body>
+        <!--Menu Déroulant -->
+        <div id="nonselect">
+            <span id="motclef"><img src="image/Vecteur_menupng.png" alt="Menu" width="40" height="40"></span>
+            <table id="menu">
+                <tr>
+                    <th>
+                        <a href="index.html">Home</a>
+                    </th>
+                    <th>
+                        <a href="Personnes.html">Voir les personnes</a>
+                    </th>
+                    <th>
+                        <a href="Jeu.html">Voir le Jeu</a>
+                    </th>
+                    <th>
+                        <a href="Projet.html">Voir le projet</a>
+                    </th>
+                    <th>
+                        <a href="git.html">Lien vers le git</a>
+                    </th>
+                </tr>
+            </table>
+        </div>
+
+        <!--Page-->
+        <h1>Présentation du projet</h1>
+        <img src="image/demineurpng.png" alt="photodemineur" height="400" width="400"><!--Je ne peux pas lancer le programme de mon ordi donc faire screen du vrai jeu-->
+        <p>Le but du jeu dans le démineur a deux joueurs est le suivant :
+            <br> 
+        </p>
+        <ul>
+            <li>On a d'abord une grille de 16x16 cases</li>
+            <li>Il y a 50 Bombes dans cette grille placées aléatoirement</li>
+            <li>Le but est de trouver le plus de bombes que l'adversaire
+                <ul>
+                    <li>
+                        Contrairement Au démineur normal ou on ne doit pas trouver les bombes
+                    </li>
+                </ul>
+            </li>
+            <li>Le joueur doit cliquer n'importe ou dans la grille pour trouver une bombe
+                <ul>
+                    <li>
+                        Si il en trouve une, il rejoue et gagne 1 point
+                    </li>
+                    <li>
+                        Sinon c'est au tour de l'adversaire.
+                    </li>
+                </ul>
+                <img src="image/score.png" alt="score"><!--Je ne peux pas lancer le programme de mon ordi donc faire screen du vrai jeu-->
+            </li>
+            
+            <li>Chaque nombre dit qu'autour de lui, il y a un nombre de bombes : 
+                <ul>
+                    <li>
+                        Pour l'exemple, le 2 en bas montre qu'autour de lui il y a 2 bombes
+                    </li>
+                    <li>
+                        <i>passez votre souris sur l'image et les cases rouges sont la ou il peut y avoir une bombe pour ce 2 </i>
+                    </li>
+                </ul>
+                <div class="Exemples">
+                    <img src="image/exempledemineur.png" alt="exempledemineur" id="exemple1">
+                    <img src="image/exempledemineur2.png" alt="exempledemineur2" id="exemple2">
+                </div>
+            </li>
+                
+            
+        </ul>
+        
+        
+        <p><br><br><br>Pour la page de présentation du sujet, il faudra expliquer le fonctionnement du démineur à deux joueurs ainsi que les règles du jeu pour quelqu'un qui ne connaîtrait pas le jeu (des illustrations seront les bienvenues pour une meilleure compréhension)</p>
+        <a href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fleria-etud.univ-angers.fr%2F~tthoma%2FProjet%2FJeu.html">W3 validator</a>
+        <img src="image/ua_h_blanc_ecran.png" alt="Logo université" id="logo_univ">    
+    </body>
+</HTML>
