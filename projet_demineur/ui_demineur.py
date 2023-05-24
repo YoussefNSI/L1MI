@@ -12,7 +12,7 @@ if missing:
     subprocess.check_call([python, '-m', 'pip', 'install', *missing], stdout=subprocess.DEVNULL)
 
 from PyQt5.QtWidgets import QApplication, QWidget, QGridLayout, \
-    QPushButton, QLabel, QMessageBox, QVBoxLayout, QLayout
+    QPushButton, QLabel, QMessageBox, QVBoxLayout, QLayout, QDialog, QRadioButton
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QFont
 from classe_grille import Demineur
@@ -30,9 +30,10 @@ class UI_Demineur(QWidget):
         self.joueur2 = 0
         self.tour = 1 # le joueur 1 par défaut commence
         self.J_Gagnant = None
+        self.contre_ia:bool
+        self.adversaire_dialog()
         self.initUI()
-        
-        
+        print(self.contre_ia)
 
     def initUI(self):
         self.setWindowTitle('Démineur')
@@ -71,6 +72,40 @@ class UI_Demineur(QWidget):
 
         self.show()
     
+    def adversaire_dialog(self):
+        """
+        Boite de dialogue pour choisir si on veut jouer contre une IA ou non.
+        """
+        adversaire_dialog = QDialog()
+
+        vbox = QVBoxLayout()
+
+        label = QLabel("Sélectionnez l'adversaire :")
+        vbox.addWidget(label)
+
+        humain = QRadioButton("Humain")
+        ia = QRadioButton("IA")
+
+        vbox.addWidget(humain)
+        vbox.addWidget(ia)
+
+        humain.setChecked(True)
+
+        def on_button_clicked():
+            if humain.isChecked():
+                self.contre_ia = False
+            else:
+                self.contre_ia = True
+
+            adversaire_dialog.done(0)
+
+        button = QPushButton("Valider")
+        button.clicked.connect(on_button_clicked)
+        vbox.addWidget(button)
+
+        adversaire_dialog.setLayout(vbox)
+        adversaire_dialog.exec_()
+    
     def on_button_clicked(self, button=False):
         """
         Action quand on clique sur un bouton
@@ -88,7 +123,8 @@ class UI_Demineur(QWidget):
             if self.tour == 1 and button.text() == " ":
                 self.tour_label.setText("Tour du Joueur 2 (Bleu)")
                 self.tour = 2
-                self._tour_de_ia()
+                if self.contre_ia:
+                    self._tour_de_ia()
             elif self.tour == 2 and button.text() == " ":
                 self.tour_label.setText("Tour du Joueur 1 (Rouge)")
                 self.tour = 1
@@ -107,7 +143,8 @@ class UI_Demineur(QWidget):
                 self.joueur2 += 1
                 self.score_j2_label.setText(f"Score Joueur 2 : {self.joueur2}")
                 button.setStyleSheet('QPushButton {color: blue;}')
-                self._tour_de_ia()
+                if self.contre_ia:
+                    self._tour_de_ia()
 
             button.setText("*")
 
