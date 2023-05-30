@@ -1,34 +1,31 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout
+from ui_demineur import lancer_demineur
 
-class Menu(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.contre_ia = False
-        self.initUI()
+lancer_demineur()
+"""
+<p><br><br><br>Pour la page d'explications sur le développement vous prendrez le temps d'expliquer 
+            les choix effectués pour l'interface graphique et les différentes IA implantées (modules, fonctions implantées, ...).
+             Vous pourrez mettre en avant les difficultés ainsi que les points que vous pensez intéressants.</p>
 
-    def initUI(self):
-        self.setWindowTitle('Menu')
-        self.setGeometry(100, 100, 300, 200)
 
-        layout = QVBoxLayout()
+i = 0
+        while i < len(liste_contraintes):
+            j = i + 1
+            while j < len(liste_contraintes):
+                cases_i, mines_i = liste_contraintes[i]
+                cases_j, mines_j = liste_contraintes[j]
+                if cases_j.issubset(cases_i):
+                    cases_diff = cases_i - cases_j
+                    if len(cases_diff) > 0:
+                        liste_contraintes[i] = (cases_diff, mines_i - mines_j)
+                elif cases_i.issubset(cases_j):
+                    cases_diff = cases_j - cases_i
+                    if len(cases_diff) > 0:
+                        liste_contraintes[j] = (cases_diff, mines_j - mines_i)
+                j += 1
+            i += 1
 
-        button1 = QPushButton('Jouer contre un humain', self)
-        button1.clicked.connect(lambda: self.set_contre_ia(False))
-        layout.addWidget(button1)
 
-        button2 = QPushButton('Jouer contre une IA', self)
-        button2.clicked.connect(lambda: self.set_contre_ia(True))
-        layout.addWidget(button2)
+"""            
 
-        self.setLayout(layout)
 
-    def set_contre_ia(self, value):
-        self.contre_ia = value
-        self.close()
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    menu = Menu()
-    menu.show()
-    sys.exit(app.exec_())

@@ -33,9 +33,32 @@
             </table>
         </div>
 
-        <p><br><br><br>Pour la page d'explications sur le développement vous prendrez le temps d'expliquer 
-            les choix effectués pour l'interface graphique et les différentes IA implantées (modules, fonctions implantées, ...).
-             Vous pourrez mettre en avant les difficultés ainsi que les points que vous pensez intéressants.</p>
+        <section>
+            <h2>L'Interface graphique du Démineur :</h2>
+            <p>L'Interface graphique du démineur à été codé grâce a la bibliothèque PyQt5 qui est la version Python de Qt5 normalement en C++</p>
+            <h3>Image du démineur</h3>
+            <p>Au début du jeu, on a la possibilité de choisir entre jouer contre une IA ou une vraie personne : </p>
+            <img src="image/img_selection.png" alt="Démineur selection">
+            <p>En haut de la grille du jeu, on voit le score des deux joueurs et le tour du joueur.</p>
+            <img src="image/img_demineur_vide.png" alt="Démineur début">
+            <p>Les bombes sont associé au joueur qui l'a trouvé. Les cases blanches vides sont ceux qui ne contiennent aucune mine autour.</p>
+            <img src="image/img_demineur_partiel.png" alt="Démineur cours de partie">
+            <p>Le joueur ayant trouvé le plus de bombe gagne la partie</p>
+            <img src="image/img_demineur_fin.png" alt="Démineur fin de partie">
+
+            <h3>Erreurs et difficultés</h3>
+            <p>Pour l'interface graphique, le plus difficile à été d'apprendre à utiliser la bibliothèque PyQt5. 
+                J'ai rencontré plusieurs erreurs durant le développement de l'interface, les plus difficiles a résoudre sont :</p>
+                <ul>
+                    <li>Faire jouer l'IA sur la grille en simulant un clic</li>
+                    <li>La boite de dialogue au début pour choisir l'adversaire</li>
+                    <li>Associer les boutons de la grille à la grille du démineur</li>
+                </ul>
+            
+        </section>
+        
+
+        
         <a href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fleria-etud.univ-angers.fr%2F~tthoma%2FProjet%2FProjet.html">W3 validator</a>
         <img src="image/ua_h_blanc_ecran.png" alt="Logo université" id="logo_univ">    
     </body>

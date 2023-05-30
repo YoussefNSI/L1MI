@@ -1,6 +1,7 @@
 from random import randint
 from pprint import pprint
 from time import sleep
+import itertools
 
 class Demineur:
 
@@ -17,7 +18,7 @@ class Demineur:
 
     def _affichage(self, grille="visible"):
         """
-        Affiche la grille dans la console
+        Affiche la grille visible avec toutes les bombes
         param:  par defaut affiche la grille visible.
                 Sinon affiche la grille de jeu avec 
                 les cases non révélés.
@@ -73,10 +74,9 @@ class Demineur:
 
                     self.grille[i][j] = nb_bombes
 
+    
+
     def _creation_grille(self):
-        """
-        Initialise la grille
-        """
         self._place_bombe()
         self._voisins_bombes()
     
@@ -108,9 +108,6 @@ class Demineur:
     
     
     def _cases_a_verifier(self):
-        """
-        Retourne une liste des coordonnées des cases qui contiennent une ou plusieurs mines adjacentes
-        """
         liste_indice = []
         for i in range(self.ligne):
             for j in range(self.colonne):
@@ -119,9 +116,6 @@ class Demineur:
         return liste_indice
     
     def _get_cases_voisins(self, x, y):
-        """
-        Retourne les indices des cases voisines
-        """
         liste_indice = []
         for dx, dy in ((-1,-1),(-1, 0),(-1, 1),(0,-1),(0,1),(1,-1),(1,0),(1,1)):
             new_x, new_y = dx + x, dy + y
@@ -129,74 +123,106 @@ class Demineur:
                 liste_indice.append((new_x, new_y))
         return liste_indice
     
-    def _contraintes(self):
-        """
-        Retourne une liste de contraintes qui representent le nombre de mines restantes
-        parmis les cases voisines non révelés.
-        """
-        indices = self._cases_a_verifier()
-        liste_contraintes = []
-        nb_bombes:int
-        
-        for x, y in indices:
-            indices_voisin = self._get_cases_voisins(x, y)
-            nb_bombes = 0
-            cases_nn_revele = []
-            for dx, dy in indices_voisin:
-                if self.grille_non_visible[dx][dy] == -1:
-                    nb_bombes += 1
-                elif self.grille_non_visible[dx][dy] == "?":
-                    cases_nn_revele.append((dx,dy))
-            if self.grille_non_visible[x][y] > nb_bombes:
-                mines_restantes = self.grille_non_visible[x][y] - nb_bombes
-                contrainte:set = (set(cases_nn_revele), mines_restantes)
-                liste_contraintes.append(contrainte)
-        
-        return liste_contraintes
+    def _get_voisins_non_revele(self, coord):
+        x, y = coord
+        liste_indice = []
+        for dx, dy in ((-1,-1),(-1, 0),(-1, 1),(0,-1),(0,1),(1,-1),(1,0),(1,1)):
+            new_x, new_y = dx + x, dy + y
+            if (0 <= new_x < self.ligne and 0 <= new_y < self.colonne) and (self.grille_non_visible[new_x][new_y] == "?"):
+                liste_indice.append((new_x, new_y))
+        return liste_indice
     
-    def _intersection(self, contraintes):
-        """
-        Verifie pour chaque paire de contrainte si ils partagent des cases voisines non révelés 
-        et créé une nouvelle contrainte
-        """
-        new_liste_c = []
-        for i in range(len(contraintes)):
-            for j in range(i + 1, len(contraintes)):
-                cases_communs = set(contraintes[i][0]).intersection(set(contraintes[j][0]))
-                if cases_communs:
-                    mine_restante = abs(contraintes[i][1] - contraintes[j][1])
-                    n_contrainte = (cases_communs, mine_restante)
-                    new_liste_c.append(n_contrainte)
-        return new_liste_c
+    def _get_contraintes_independantes(self, contraintes):
+        independent_sets = []
+        for contrainte in contraintes:
+            est_dans_set = False
+            for contrainte_set in independent_sets:
+                if any(any(c in contrainte[2] for c in autre_contrainte[2]) for autre_contrainte in contrainte_set):
+                    contrainte_set.append(contrainte)
+                    est_dans_set = True
+                    break
+            if not est_dans_set:
+                independent_sets.append([contrainte])
+        return independent_sets
 
+    def _get_combinaison_valide(self, contrainte_set, mines_restante=None, combinaison_actuelle=None, indice=0, cache=None):
+        if mines_restante is None:
+            mines_restante = sum(contrainte[1] for contrainte in contrainte_set)
+        if combinaison_actuelle is None:
+            combinaison_actuelle = set()
+        if cache == None:
+            cache = {}
+        if indice == len(contrainte_set):
+            if mines_restante == 0:
+                return [combinaison_actuelle]
+            else:
+                return []
+            
+        if (indice, mines_restante) in cache:
+            return cache[(indice, mines_restante)]
 
-    def _probabilite(self, contraintes):
-        """
-        Retourne un dictionnaire avec toutes les probabilités pour chaque indice
-        """
-        probabilite = {}
-        for cases, mines in contraintes:
-            for case in cases:
-                prob = mines / len(cases)
-                if case not in probabilite or prob > probabilite[case]:
-                    probabilite[case] = prob
-        return probabilite
+        case, mines_restantes, cases_nn_revele = contrainte_set[indice]
+        combinaisons_possible = []
+        for nb_mines in range(min(mines_restantes + 1, len(cases_nn_revele) + 1)):
+            for mine_combination in itertools.combinations(cases_nn_revele, nb_mines):
+                new_combinaison = combinaison_actuelle.copy()
+                new_combinaison.update(mine_combination)
+                if len(new_combinaison) <= mines_restante:
+                    combinaisons_possible.extend(self._get_combinaison_valide(contrainte_set, mines_restante - len(new_combinaison), new_combinaison, indice + 1, cache))
+
+        cache[(indice, mines_restante)] = combinaisons_possible
+
+        return combinaisons_possible
+
+    def _calcul_probabilite(self):
+        contraintes = []
+        cases_revele = self._cases_a_verifier()
+        for case in cases_revele:
+            cases_nn_revele = self._get_voisins_non_revele(case)
+            x, y = case
+            if cases_nn_revele:
+                mines_restantes = self.grille_non_visible[x][y] - sum(1 for c in cases_nn_revele if self.grille_non_visible[c[0]][c[1]] == -1)
+                contraintes.append((case, mines_restantes, cases_nn_revele))
+
+        contraintes_independantes = self._get_contraintes_independantes(contraintes)
+        probabilities = {}
+        for contrainte_set in contraintes_independantes:
+            combinaisons_possible = self._get_combinaison_valide(contrainte_set)
+            nb_combinaisons = len(combinaisons_possible)
+            for combinaison in combinaisons_possible:
+                for case in combinaison:
+                    if case not in probabilities:
+                        probabilities[case] = 1 / nb_combinaisons
+                    else:
+                        probabilities[case] += 1 / nb_combinaisons
+
+        return probabilities
     
     def _case_plus_probable(self):
-        """
-        Renvoie la case avec la plus grande probabilité de contenir une mine
-        """
-        contraintes = self._contraintes()
-        contraintes += self._intersection(contraintes)
-        probabilites = self._probabilite(contraintes)
-        if probabilites:
-            plus_probable = max(probabilites, key=probabilites.get)
+        probabilite = self._calcul_probabilite()
+        print(probabilite)
+        if probabilite:
+            plus_probable = max(probabilite, key=probabilite.get)
         else:
             plus_probable = (randint(0, self.ligne-1), randint(0, self.colonne-1))
             while self.grille_non_visible[plus_probable[0]][plus_probable[1]] != "?":
                 plus_probable = (randint(0, self.ligne-1), randint(0, self.colonne-1))
         return plus_probable
+    
 
+
+    """
+    def _case_plus_probable(self):
+        contraintes = self._contraintes()
+        contraintes += self._intersection(contraintes)
+        probabilites = self._probabilite(contraintes)
+        print(probabilites)
+        if probabilites:
+            plus_probable = max(probabilites, key=probabilites.get)
+        else:
+            plus_probable = (randint(0, self.ligne-1), randint(0, self.colonne-1))
+        return plus_probable
+    """
 
 
 if __name__ == '__main__':
